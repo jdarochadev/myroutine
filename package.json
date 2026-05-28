@@ -1,0 +1,16 @@
+{
+  "name": "myroutine",
+  "private": true,
+  "workspaces": ["frontend"],
+  "scripts": {
+    "dev": "bun run dev:api & bun run dev:web",
+    "dev:web": "bun --cwd frontend dev",
+    "dev:api": "bun run go -- -C backend run ./cmd/api",
+    "build": "bun --cwd frontend build",
+    "typecheck": "bun --cwd frontend typecheck",
+    "lint": "bun --cwd frontend lint",
+    "api:run": "bun run dev:api",
+    "go": "sh -c 'if command -v mise >/dev/null 2>&1; then mise x go@1.23.12 -- go \"$@\"; else go \"$@\"; fi' --"
+  },
+  "packageManager": "bun@1.1.0"
+}
