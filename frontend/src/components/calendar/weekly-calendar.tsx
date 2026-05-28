@@ -48,7 +48,7 @@ export function WeeklyCalendar({ weekStart, data }: { weekStart: string; data?: 
         return (
           <Card
             key={day.iso}
-            className={cn("h-[330px] min-w-0 bg-card/70 transition-all sm:h-[360px] lg:h-[520px] xl:h-[560px]", day.isToday && "ring-2 ring-sky-400/70 shadow-glow", dragOver === day.iso && "scale-[1.01] border-sky-400 bg-sky-400/10")}
+            className={cn("h-[330px] min-w-0 bg-card/82 shadow-soft transition-all sm:h-[360px] lg:h-[520px] xl:h-[560px]", day.isToday && "ring-2 ring-primary/70 shadow-glow", dragOver === day.iso && "scale-[1.01] border-primary bg-primary/10")}
           >
             <CardContent
               className="flex h-full flex-col gap-2.5 p-2.5 xl:gap-3 xl:p-3"
@@ -62,11 +62,11 @@ export function WeeklyCalendar({ weekStart, data }: { weekStart: string; data?: 
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground xl:text-xs xl:tracking-[0.18em]">{day.label}</p>
-                    {day.isToday ? <Badge className="bg-sky-500 px-2 py-0 text-[10px] text-white">Hoje</Badge> : null}
+                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground xl:text-xs xl:tracking-[0.2em]">{day.label}</p>
+                    {day.isToday ? <Badge className="bg-primary px-2 py-0 text-[10px] text-primary-foreground">Hoje</Badge> : null}
                   </div>
                   <div className="mt-0.5 flex items-end gap-1.5">
-                    <span className="text-2xl font-semibold tracking-tight xl:text-3xl">{day.dayNumber}</span>
+                    <span className="text-3xl font-black tracking-[-0.06em] xl:text-4xl">{day.dayNumber}</span>
                     <span className="pb-1 text-xs text-muted-foreground capitalize">{day.month}</span>
                   </div>
                 </div>
@@ -80,15 +80,15 @@ export function WeeklyCalendar({ weekStart, data }: { weekStart: string; data?: 
                   <span>{completed}/{dayItems.length} concluídas</span>
                   <span>{progress}%</span>
                 </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-                  <motion.div className="h-full rounded-full bg-gradient-to-r from-sky-400 to-indigo-500" initial={{ width: 0 }} animate={{ width: `${progress}%` }} />
+                <div className="h-2 overflow-hidden rounded-full bg-muted">
+                  <motion.div className="h-full rounded-full bg-primary" initial={{ width: 0 }} animate={{ width: `${progress}%` }} />
                 </div>
               </div>
 
               <div className="scrollbar-soft flex flex-1 flex-col gap-2 overflow-y-auto pr-1">
                 <AnimatePresence initial={false}>
                   {dayItems.length === 0 ? (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex min-h-24 flex-1 items-center justify-center rounded-2xl border border-dashed p-4 text-center text-xs text-muted-foreground">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex min-h-24 flex-1 items-center justify-center rounded-2xl border border-dashed bg-background/45 p-4 text-center text-xs font-medium text-muted-foreground">
                       Arraste ou crie uma atividade.
                     </motion.div>
                   ) : (
@@ -132,24 +132,24 @@ function ActivityCard({ occurrence, onOpenDetails }: { occurrence: ActivityOccur
           event.dataTransfer.setData("application/json", JSON.stringify(payload));
         }}
         onClick={() => onOpenDetails(occurrence)}
-        className={cn("group relative cursor-pointer rounded-xl border bg-background/85 p-2.5 pb-10 shadow-sm transition active:cursor-grabbing hover:-translate-y-0.5 hover:shadow-md md:p-2 md:pb-2", occurrence.completed && "opacity-65")}
+        className={cn("group relative cursor-pointer rounded-[1.05rem] border bg-background/92 p-2.5 pb-10 shadow-sm transition active:cursor-grabbing hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-soft md:p-2 md:pb-2", occurrence.completed && "opacity-65")}
         style={{ borderColor: activity.color ? `${activity.color}66` : undefined }}
       >
         <div className="pr-10 md:pr-7">
           <div className="flex min-w-0 items-center gap-1.5 text-[10px] text-muted-foreground">
             <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: activity.color || "#38bdf8" }} />
-            <span className="shrink-0 rounded-md bg-muted px-1.5 py-0.5 font-semibold">{activity.startTime}</span>
+            <span className="shrink-0 rounded-lg bg-secondary px-1.5 py-0.5 font-black text-secondary-foreground">{activity.startTime}</span>
             <Clock className="h-3 w-3 shrink-0" />
             <span className="shrink-0">{minutesToLabel(activity.durationMinutes)}</span>
           </div>
-          <h3 className={cn("mt-1 line-clamp-2 text-sm font-semibold leading-snug tracking-tight text-foreground", occurrence.completed && "line-through")}>{activity.title}</h3>
-          <div className="mt-1 flex min-w-0 items-center gap-1.5 overflow-hidden text-[10px] text-muted-foreground">
+          <h3 className={cn("mt-1.5 line-clamp-2 text-[15px] font-bold leading-snug tracking-[-0.02em] text-foreground", occurrence.completed && "line-through")}>{activity.title}</h3>
+          <div className="mt-1.5 flex min-w-0 items-center gap-1.5 overflow-hidden text-[10px] font-medium text-muted-foreground">
             <span className="shrink-0">{activity.type === "fixed" ? "Fixa" : "Única"}</span>
             {activity.category ? <span className="truncate">• {activity.category}</span> : null}
           </div>
         </div>
         <button
-          className={cn("absolute right-1.5 top-1.5 flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-accent md:right-2 md:top-2 md:h-7 md:w-7", occurrence.completed && "text-emerald-500")}
+          className={cn("absolute right-1.5 top-1.5 flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-accent md:right-2 md:top-2 md:h-7 md:w-7", occurrence.completed && "text-[oklch(0.62_0.14_145)]")}
           onClick={(event) => {
             event.stopPropagation();
             complete.mutate({ id: activity.id, date: occurrence.occurrenceDate, completed: !occurrence.completed });
@@ -217,7 +217,7 @@ function ActivityDetailModal({ occurrence, onOpenChange }: { occurrence: Activit
             <Badge variant={activity.type === "fixed" ? "default" : "secondary"}>{activity.type === "fixed" ? "Atividade fixa" : "Atividade única"}</Badge>
             {activity.category ? <Badge variant="outline">{activity.category}</Badge> : null}
             <Badge variant={activity.priority === "high" ? "destructive" : "outline"}>Prioridade {priorityLabel(activity.priority).toLowerCase()}</Badge>
-            {occurrence.completed ? <Badge className="bg-emerald-500 text-white">Concluída</Badge> : null}
+            {occurrence.completed ? <Badge className="bg-[oklch(0.62_0.14_145)] text-[oklch(0.985_0.012_78)]">Concluída</Badge> : null}
           </div>
         </div>
 

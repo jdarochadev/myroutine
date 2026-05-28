@@ -40,16 +40,16 @@ export function App() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_12%_0%,rgba(99,102,241,0.18),transparent_28rem),radial-gradient(circle_at_90%_8%,rgba(14,165,233,0.12),transparent_24rem)]" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_12%_-4%,oklch(0.78_0.13_70/0.28),transparent_30rem),radial-gradient(circle_at_86%_2%,oklch(0.73_0.08_145/0.16),transparent_26rem),linear-gradient(180deg,oklch(0.985_0.012_78),oklch(0.955_0.018_74))] dark:bg-[radial-gradient(circle_at_12%_-4%,oklch(0.66_0.13_70/0.16),transparent_30rem),radial-gradient(circle_at_86%_2%,oklch(0.65_0.08_145/0.12),transparent_26rem),linear-gradient(180deg,oklch(0.18_0.026_62),oklch(0.16_0.028_62))]" />
       <section className="flex min-h-screen flex-col pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur-md">
-          <div className="container flex flex-col gap-3 px-3 py-3 sm:px-5 lg:flex-row lg:items-center lg:justify-between">
+        <header className="sticky top-0 z-30 border-b bg-background/92 shadow-[0_18px_55px_-45px_oklch(0.25_0.04_64/0.7)] backdrop-blur-md">
+          <div className="container flex flex-col gap-3 px-3 py-3.5 sm:px-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex min-w-0 items-center justify-between gap-3">
               <div className="min-w-0">
-                <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                  <Sparkles className="h-3.5 w-3.5 text-sky-500" /> MyRoutine
+                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+                  <Sparkles className="h-3.5 w-3.5" /> MyRoutine
                 </div>
-                <h1 className="mt-0.5 truncate text-xl font-semibold tracking-tight sm:text-2xl">
+                <h1 className="mt-0.5 truncate text-2xl font-black tracking-[-0.045em] sm:text-3xl">
                   {appView === "routine" ? "Rotina semanal" : "Trilhas de estudo"}
                 </h1>
               </div>
@@ -59,11 +59,11 @@ export function App() {
             </div>
 
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-              <div className="grid grid-cols-2 gap-1 rounded-2xl border bg-card p-1 shadow-sm">
-                <Button variant={appView === "routine" ? "secondary" : "ghost"} size="sm" className="h-11 gap-2 sm:h-9" onClick={() => setAppView("routine")}>
+              <div className="grid grid-cols-2 gap-1 rounded-2xl border bg-card p-1 shadow-soft">
+                <Button variant={appView === "routine" ? "default" : "ghost"} size="sm" className="h-11 gap-2 sm:h-9" onClick={() => setAppView("routine")}>
                   <CalendarDays className="h-4 w-4" /> Rotina
                 </Button>
-                <Button variant={appView === "study" ? "secondary" : "ghost"} size="sm" className="h-11 gap-2 sm:h-9" onClick={() => setAppView("study")}>
+                <Button variant={appView === "study" ? "default" : "ghost"} size="sm" className="h-11 gap-2 sm:h-9" onClick={() => setAppView("study")}>
                   <BookOpenCheck className="h-4 w-4" /> Estudos
                 </Button>
               </div>
@@ -74,17 +74,17 @@ export function App() {
           </div>
         </header>
 
-        <div className="container flex flex-1 flex-col gap-4 px-3 pt-4 sm:px-5 lg:gap-5 lg:pt-5">
+        <div className="container flex flex-1 flex-col gap-4 px-3 pt-4 sm:px-5 lg:gap-5 lg:pt-6">
           <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
             <div className="max-w-3xl">
-              <p className="text-sm leading-6 text-muted-foreground">
+              <p className="max-w-2xl text-base font-medium leading-7 text-foreground/75">
                 {appView === "routine"
                   ? "Planeje a semana, ajuste atividades por dia e acompanhe o que já saiu do papel."
                   : "Quebre temas grandes em assuntos pequenos e avance com percentual claro por trilha."}
               </p>
             </div>
             {appView === "routine" ? (
-              <div className="grid grid-cols-3 gap-2 lg:w-[520px]">
+              <div className="grid grid-cols-3 gap-2 lg:w-[540px]">
                 <Metric icon={CalendarDays} label="Atividades" value={activities.length.toString()} loading={isLoading} />
                 <Metric icon={BarChart3} label="Produtividade" value={`${completionRate}%`} loading={isLoading} />
                 <Metric icon={Sparkles} label="Planejado" value={`${Math.round(totalMinutes / 60)}h`} loading={isLoading} />
@@ -92,9 +92,9 @@ export function App() {
             ) : null}
           </div>
 
-          {appView === "routine" ? <div className="rounded-2xl border bg-card p-3 shadow-sm">
+          {appView === "routine" ? <div className="rounded-[1.7rem] border bg-card p-3 shadow-soft">
             <div className="grid gap-3 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:items-center">
-              <div className="grid grid-cols-3 items-center gap-1 rounded-xl border bg-background p-1 sm:flex sm:gap-1">
+              <div className="grid grid-cols-3 items-center gap-1 rounded-2xl border bg-background p-1 sm:flex sm:gap-1">
                 <Button variant="ghost" size="sm" className="h-10 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm" onClick={goToPreviousWeek}>Anterior</Button>
                 <Button variant="secondary" size="sm" className="h-10 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm" onClick={goToCurrentWeek}>{weekLabel}</Button>
                 <Button variant="ghost" size="sm" className="h-10 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm" onClick={goToNextWeek}>Próxima</Button>
@@ -122,7 +122,7 @@ export function App() {
                 <Button variant="outline" onClick={() => setResetOpen(true)} className="h-11 gap-2 text-destructive hover:text-destructive sm:h-10">
                   <Trash2 className="h-4 w-4" /> Resetar
                 </Button>
-                <Button onClick={() => openCreateModal()} className="h-11 gap-2 shadow-sm sm:h-10">
+                <Button onClick={() => openCreateModal()} className="h-11 gap-2 shadow-glow sm:h-10">
                   <Plus className="h-4 w-4" /> Nova atividade
                 </Button>
               </div>
@@ -176,7 +176,7 @@ function Metric({ icon: Icon, label, value, loading }: { icon: typeof Sparkles; 
         <span className="truncate text-[10px] font-medium uppercase tracking-[0.12em] sm:text-xs sm:tracking-[0.2em]">{label}</span>
         <Icon className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
       </div>
-      {loading ? <Skeleton className="mt-3 h-7 w-14 sm:mt-4 sm:h-8 sm:w-20" /> : <p className="mt-2 text-xl font-semibold tracking-tight sm:mt-3 sm:text-2xl">{value}</p>}
+      {loading ? <Skeleton className="mt-3 h-7 w-14 sm:mt-4 sm:h-8 sm:w-20" /> : <p className="mt-2 text-2xl font-black tracking-[-0.045em] sm:mt-3 sm:text-3xl">{value}</p>}
     </div>
   );
 }

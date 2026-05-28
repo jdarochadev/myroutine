@@ -75,6 +75,35 @@ backend/data/myroutine.db
 DATABASE_PATH=backend/data/dev.db bun run dev:api
 ```
 
+## Deploy separado
+
+### Backend no Render
+
+O backend aceita `PORT`, variável definida automaticamente pelo Render. Configure o serviço apontando para a pasta `backend` ou usando comandos com `-C backend`.
+
+Variáveis de ambiente:
+
+```env
+DATABASE_PATH=data/myroutine.db
+ALLOW_ORIGINS=https://seu-front.vercel.app
+```
+
+Se usar disco persistente no Render, aponte o SQLite para o caminho montado, por exemplo:
+
+```env
+DATABASE_PATH=/var/data/myroutine.db
+```
+
+### Frontend na Vercel
+
+Configure a URL pública da API com o prefixo `/api`:
+
+```env
+VITE_API_URL=https://seu-backend.onrender.com/api
+```
+
+Sem essa variável, o frontend usa `/api`, útil apenas quando frontend e backend estão no mesmo domínio/proxy.
+
 ## API REST
 
 Base URL: `/api`
