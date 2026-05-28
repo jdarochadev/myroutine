@@ -40,90 +40,108 @@ export function App() {
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.22),transparent_32rem),radial-gradient(circle_at_top_right,rgba(14,165,233,0.15),transparent_28rem)]" />
-      <section className="container flex min-h-screen flex-col gap-4 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:px-5 sm:py-5 lg:gap-6 lg:py-8">
-        <header className="flex flex-col gap-4 rounded-[1.5rem] border bg-card/75 p-4 shadow-soft backdrop-blur-xl sm:rounded-[2rem] sm:p-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="space-y-2 sm:space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-[11px] font-medium text-muted-foreground sm:text-xs">
-              {appView === "routine" ? "Rotina semanal inteligente" : "Trilhas de estudo"}
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_12%_0%,rgba(99,102,241,0.18),transparent_28rem),radial-gradient(circle_at_90%_8%,rgba(14,165,233,0.12),transparent_24rem)]" />
+      <section className="flex min-h-screen flex-col pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur-md">
+          <div className="container flex flex-col gap-3 px-3 py-3 sm:px-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex min-w-0 items-center justify-between gap-3">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                  <Sparkles className="h-3.5 w-3.5 text-sky-500" /> MyRoutine
+                </div>
+                <h1 className="mt-0.5 truncate text-xl font-semibold tracking-tight sm:text-2xl">
+                  {appView === "routine" ? "Rotina semanal" : "Trilhas de estudo"}
+                </h1>
+              </div>
+              <div className="flex shrink-0 items-center gap-2 lg:hidden">
+                <ThemeSwitch theme={theme} toggleTheme={toggleTheme} />
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl md:text-5xl">RoutineApp</h1>
-              <p className="mt-1 max-w-2xl text-xs text-muted-foreground sm:mt-2 sm:text-sm md:text-base">
-                {appView === "routine"
-                  ? "Organização prática e faćil."
-                  : "Estruture temas, acompanhe subtemas e veja o progresso real das suas trilhas de aprendizado."}
-              </p>
-            </div>
-            <div className="grid max-w-sm grid-cols-2 gap-1 rounded-2xl border bg-background/70 p-1">
-              <Button variant={appView === "routine" ? "secondary" : "ghost"} size="sm" className="gap-2" onClick={() => setAppView("routine")}>
-                <CalendarDays className="h-4 w-4" /> Rotina
-              </Button>
-              <Button variant={appView === "study" ? "secondary" : "ghost"} size="sm" className="gap-2" onClick={() => setAppView("study")}>
-                <BookOpenCheck className="h-4 w-4" /> Estudos
-              </Button>
-            </div>
-          </div>
 
-          <div className={cn("grid grid-cols-3 gap-2 sm:gap-3 lg:min-w-[520px]", appView === "study" && "hidden lg:grid")}>
-            <Metric icon={CalendarDays} label="Atividades" value={activities.length.toString()} loading={isLoading} />
-            <Metric icon={BarChart3} label="Produtividade" value={`${completionRate}%`} loading={isLoading} />
-            <Metric icon={Sparkles} label="Planejado" value={`${Math.round(totalMinutes / 60)}h`} loading={isLoading} />
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+              <div className="grid grid-cols-2 gap-1 rounded-2xl border bg-card p-1 shadow-sm">
+                <Button variant={appView === "routine" ? "secondary" : "ghost"} size="sm" className="h-11 gap-2 sm:h-9" onClick={() => setAppView("routine")}>
+                  <CalendarDays className="h-4 w-4" /> Rotina
+                </Button>
+                <Button variant={appView === "study" ? "secondary" : "ghost"} size="sm" className="h-11 gap-2 sm:h-9" onClick={() => setAppView("study")}>
+                  <BookOpenCheck className="h-4 w-4" /> Estudos
+                </Button>
+              </div>
+              <div className="hidden lg:block">
+                <ThemeSwitch theme={theme} toggleTheme={toggleTheme} />
+              </div>
+            </div>
           </div>
         </header>
 
-        {appView === "routine" ? <Card className="border bg-card/70 shadow-soft backdrop-blur-xl">
-          <CardContent className="flex flex-col gap-3 p-3 sm:p-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex flex-col gap-2 md:flex-row md:items-center">
-              <div className="grid grid-cols-3 items-center gap-1 rounded-2xl border bg-background/70 p-1 sm:flex sm:gap-2">
-                <Button variant="ghost" size="sm" className="px-2 text-xs sm:px-3 sm:text-sm" onClick={goToPreviousWeek}>Anterior</Button>
-                <Button variant="secondary" size="sm" className="px-2 text-xs sm:px-3 sm:text-sm" onClick={goToCurrentWeek}>{weekLabel}</Button>
-                <Button variant="ghost" size="sm" className="px-2 text-xs sm:px-3 sm:text-sm" onClick={goToNextWeek}>Próxima</Button>
-              </div>
-              {isFetching && !isLoading ? <span className="text-xs text-muted-foreground">Sincronizando...</span> : null}
+        <div className="container flex flex-1 flex-col gap-4 px-3 pt-4 sm:px-5 lg:gap-5 lg:pt-5">
+          <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div className="max-w-3xl">
+              <p className="text-sm leading-6 text-muted-foreground">
+                {appView === "routine"
+                  ? "Planeje a semana, ajuste atividades por dia e acompanhe o que já saiu do papel."
+                  : "Quebre temas grandes em assuntos pequenos e avance com percentual claro por trilha."}
+              </p>
             </div>
+            {appView === "routine" ? (
+              <div className="grid grid-cols-3 gap-2 lg:w-[520px]">
+                <Metric icon={CalendarDays} label="Atividades" value={activities.length.toString()} loading={isLoading} />
+                <Metric icon={BarChart3} label="Produtividade" value={`${completionRate}%`} loading={isLoading} />
+                <Metric icon={Sparkles} label="Planejado" value={`${Math.round(totalMinutes / 60)}h`} loading={isLoading} />
+              </div>
+            ) : null}
+          </div>
 
-            <div className="grid gap-2 sm:grid-cols-[1fr_12rem_auto_auto] lg:flex lg:items-center lg:gap-3">
-              <div className="relative min-w-0 lg:w-72">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar atividade" className="pl-9" />
+          {appView === "routine" ? <div className="rounded-2xl border bg-card p-3 shadow-sm">
+            <div className="grid gap-3 xl:grid-cols-[auto_minmax(0,1fr)_auto] xl:items-center">
+              <div className="grid grid-cols-3 items-center gap-1 rounded-xl border bg-background p-1 sm:flex sm:gap-1">
+                <Button variant="ghost" size="sm" className="h-10 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm" onClick={goToPreviousWeek}>Anterior</Button>
+                <Button variant="secondary" size="sm" className="h-10 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm" onClick={goToCurrentWeek}>{weekLabel}</Button>
+                <Button variant="ghost" size="sm" className="h-10 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm" onClick={goToNextWeek}>Próxima</Button>
               </div>
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="lg:w-44">
-                  <SelectValue placeholder="Categoria" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todas</SelectItem>
-                  {categories.map((item) => (
-                    <SelectItem key={item} value={item}>{item}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="flex items-center justify-between gap-3 rounded-2xl border bg-background/70 px-3 py-2">
-                {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-                <Switch checked={theme === "dark"} onCheckedChange={toggleTheme} aria-label="Alternar tema" />
+
+              <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_12rem] xl:max-w-xl">
+                <div className="relative min-w-0">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar atividade" className="pl-9" />
+                </div>
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Categoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todas</SelectItem>
+                    {categories.map((item) => (
+                      <SelectItem key={item} value={item}>{item}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-              <Button variant="outline" onClick={() => setResetOpen(true)} className="gap-2 text-destructive hover:text-destructive">
-                <Trash2 className="h-4 w-4" /> Resetar
-              </Button>
-              <Button onClick={() => openCreateModal()} className="gap-2 shadow-glow">
-                <Plus className="h-4 w-4" /> Nova atividade
-              </Button>
+
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:justify-end">
+                <Button variant="outline" onClick={() => setResetOpen(true)} className="h-11 gap-2 text-destructive hover:text-destructive sm:h-10">
+                  <Trash2 className="h-4 w-4" /> Resetar
+                </Button>
+                <Button onClick={() => openCreateModal()} className="h-11 gap-2 shadow-sm sm:h-10">
+                  <Plus className="h-4 w-4" /> Nova atividade
+                </Button>
+              </div>
             </div>
-          </CardContent>
-        </Card> : null}
+            {isFetching && !isLoading ? <p className="mt-2 text-xs text-muted-foreground">Sincronizando alterações...</p> : null}
+          </div> : null}
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={appView === "routine" ? weekStart : "study"}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-          >
-            {appView === "routine" ? (isLoading ? <CalendarSkeleton /> : <WeeklyCalendar weekStart={weekStart} data={data} />) : <StudyBoard />}
-          </motion.div>
-        </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={appView === "routine" ? weekStart : "study"}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+            >
+              {appView === "routine" ? (isLoading ? <CalendarSkeleton /> : <WeeklyCalendar weekStart={weekStart} data={data} />) : <StudyBoard />}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </section>
       <ActivityModal open={modal.open} />
       <AlertDialog open={resetOpen} onOpenChange={setResetOpen}>
@@ -159,6 +177,15 @@ function Metric({ icon: Icon, label, value, loading }: { icon: typeof Sparkles; 
         <Icon className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
       </div>
       {loading ? <Skeleton className="mt-3 h-7 w-14 sm:mt-4 sm:h-8 sm:w-20" /> : <p className="mt-2 text-xl font-semibold tracking-tight sm:mt-3 sm:text-2xl">{value}</p>}
+    </div>
+  );
+}
+
+function ThemeSwitch({ theme, toggleTheme }: { theme: "dark" | "light"; toggleTheme: () => void }) {
+  return (
+    <div className="flex h-11 items-center gap-2 rounded-xl border bg-card px-3 shadow-sm lg:h-10">
+      {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+      <Switch checked={theme === "dark"} onCheckedChange={toggleTheme} aria-label="Alternar tema" />
     </div>
   );
 }

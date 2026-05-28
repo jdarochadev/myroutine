@@ -54,30 +54,27 @@ export function StudyBoard() {
 
   return (
     <section className="space-y-4">
-      <Card className="border bg-card/70 shadow-soft backdrop-blur-xl">
-        <CardContent className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground">
-              <GraduationCap className="h-3.5 w-3.5 text-violet-500" />
-              Trilhas de estudo
-            </div>
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight">Organize temas e assuntos</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Crie uma trilha como “IA” e acompanhe o avanço por subtemas concluídos.</p>
-            </div>
+      <div className="grid gap-3 rounded-2xl border bg-card p-3 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:items-center">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-background text-violet-500">
+            <GraduationCap className="h-5 w-5" />
           </div>
-
-          <div className="grid gap-2 sm:grid-cols-3 lg:min-w-[460px]">
-            <StudyMetric label="Trilhas" value={data.length.toString()} loading={isLoading} />
-            <StudyMetric label="Assuntos" value={totalSubtopics.toString()} loading={isLoading} />
-            <StudyMetric label="Progresso" value={`${globalProgress}%`} loading={isLoading} />
+          <div className="min-w-0">
+            <h2 className="truncate text-base font-semibold tracking-tight sm:text-lg">Organize temas e assuntos</h2>
+            <p className="mt-0.5 text-xs text-muted-foreground sm:text-sm">Crie uma trilha como “IA” e marque cada assunto concluído.</p>
           </div>
+        </div>
 
-          <Button className="gap-2 shadow-glow" onClick={() => setCreateOpen(true)}>
-            <Plus className="h-4 w-4" /> Nova trilha
-          </Button>
-        </CardContent>
-      </Card>
+        <div className="grid grid-cols-3 gap-2 lg:w-[420px]">
+          <StudyMetric label="Trilhas" value={data.length.toString()} loading={isLoading} />
+          <StudyMetric label="Assuntos" value={totalSubtopics.toString()} loading={isLoading} />
+          <StudyMetric label="Progresso" value={`${globalProgress}%`} loading={isLoading} />
+        </div>
+
+        <Button className="h-11 gap-2 shadow-sm sm:h-10" onClick={() => setCreateOpen(true)}>
+          <Plus className="h-4 w-4" /> Nova trilha
+        </Button>
+      </div>
 
       {isLoading ? (
         <StudySkeleton />
@@ -89,11 +86,11 @@ export function StudyBoard() {
               <h3 className="font-semibold">Nenhuma trilha criada ainda</h3>
               <p className="mt-1 max-w-md text-sm text-muted-foreground">Comece criando uma trilha como IA, Backend, Inglês ou Matemática e adicione os assuntos para acompanhar seu progresso.</p>
             </div>
-            <Button onClick={() => setCreateOpen(true)}>Criar primeira trilha</Button>
+            <Button className="h-11 sm:h-10" onClick={() => setCreateOpen(true)}>Criar primeira trilha</Button>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+        <div className="grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">
           {data.map((topic) => <StudyTopicCard key={topic.id} topic={topic} />)}
         </div>
       )}
@@ -140,8 +137,8 @@ function StudyTopicCard({ topic }: { topic: StudyTopic }) {
   }
 
   return (
-    <Card className="overflow-hidden bg-card/70 shadow-soft backdrop-blur-xl">
-      <CardContent className="space-y-4 p-4">
+    <Card className="overflow-hidden bg-card shadow-sm">
+      <CardContent className="space-y-3 p-3 sm:p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
@@ -150,7 +147,7 @@ function StudyTopicCard({ topic }: { topic: StudyTopic }) {
             </div>
             {topic.description ? <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{topic.description}</p> : null}
           </div>
-          <Button size="icon" variant="ghost" className="shrink-0" onClick={() => setConfirmTopicOpen(true)} aria-label="Excluir trilha">
+          <Button size="icon" variant="ghost" className="h-10 w-10 shrink-0" onClick={() => setConfirmTopicOpen(true)} aria-label="Excluir trilha">
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>
@@ -165,7 +162,7 @@ function StudyTopicCard({ topic }: { topic: StudyTopic }) {
           </div>
         </div>
 
-        <div className="scrollbar-soft max-h-72 space-y-2 overflow-y-auto pr-1">
+        <div className="scrollbar-soft max-h-64 space-y-2 overflow-y-auto pr-1">
           {topic.subtopics.length === 0 ? (
             <div className="rounded-2xl border border-dashed p-4 text-sm text-muted-foreground">Adicione assuntos como “Harness”, “RAG”, “Agentes” ou qualquer etapa da sua trilha.</div>
           ) : (
@@ -173,7 +170,7 @@ function StudyTopicCard({ topic }: { topic: StudyTopic }) {
               <div key={subtopic.id} className={cn("group rounded-2xl border bg-background/70 p-3 transition hover:bg-background", subtopic.completed && "opacity-70")}>
                 <div className="flex items-start gap-3">
                   <button
-                    className={cn("mt-0.5 rounded-full transition", subtopic.completed ? "text-emerald-500" : "text-muted-foreground hover:text-foreground")}
+                    className={cn("-ml-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition", subtopic.completed ? "text-emerald-500" : "text-muted-foreground hover:text-foreground")}
                     onClick={() => completeSubtopic.mutate({ id: subtopic.id, completed: !subtopic.completed })}
                     aria-label="Alternar conclusão"
                   >
@@ -183,7 +180,7 @@ function StudyTopicCard({ topic }: { topic: StudyTopic }) {
                     <p className={cn("font-medium leading-tight", subtopic.completed && "line-through")}>{subtopic.title}</p>
                     {subtopic.description ? <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{subtopic.description}</p> : null}
                   </div>
-                  <Button size="icon" variant="ghost" className="h-7 w-7 opacity-100 md:opacity-0 md:group-hover:opacity-100" onClick={() => removeSubtopic.mutate(subtopic.id)} aria-label="Excluir assunto">
+                  <Button size="icon" variant="ghost" className="h-9 w-9 opacity-100 md:h-7 md:w-7 md:opacity-0 md:group-hover:opacity-100" onClick={() => removeSubtopic.mutate(subtopic.id)} aria-label="Excluir assunto">
                     <Trash2 className="h-3.5 w-3.5" />
                   </Button>
                 </div>
@@ -192,7 +189,7 @@ function StudyTopicCard({ topic }: { topic: StudyTopic }) {
           )}
         </div>
 
-        <form className="grid gap-2 rounded-2xl border bg-background/50 p-3" onSubmit={form.handleSubmit(submitSubtopic)}>
+        <form className="grid gap-2 rounded-xl border bg-background/50 p-2.5" onSubmit={form.handleSubmit(submitSubtopic)}>
           <Input placeholder="Novo assunto. Ex: Harness" {...form.register("title")} />
           <Textarea className="min-h-16" placeholder="Descrição opcional" {...form.register("description")} />
           {form.formState.errors.title?.message ? <span className="text-xs text-destructive">{form.formState.errors.title.message}</span> : null}
@@ -222,9 +219,9 @@ function StudyTopicCard({ topic }: { topic: StudyTopic }) {
 
 function StudyMetric({ label, value, loading }: { label: string; value: string; loading: boolean }) {
   return (
-    <div className="rounded-2xl border bg-background/65 p-3">
-      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
-      {loading ? <Skeleton className="mt-3 h-7 w-14" /> : <p className="mt-2 text-2xl font-semibold tracking-tight">{value}</p>}
+    <div className="rounded-xl border bg-background/65 p-2.5">
+      <p className="truncate text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">{label}</p>
+      {loading ? <Skeleton className="mt-2 h-6 w-12" /> : <p className="mt-1.5 text-xl font-semibold tracking-tight">{value}</p>}
     </div>
   );
 }

@@ -132,11 +132,12 @@ function ActivityCard({ occurrence, onOpenDetails }: { occurrence: ActivityOccur
           event.dataTransfer.setData("application/json", JSON.stringify(payload));
         }}
         onClick={() => onOpenDetails(occurrence)}
-        className={cn("group relative cursor-pointer rounded-xl border bg-background/85 p-2 shadow-sm transition active:cursor-grabbing hover:-translate-y-0.5 hover:shadow-md", occurrence.completed && "opacity-65")}
-        style={{ borderLeftColor: activity.color || "#38bdf8", borderLeftWidth: 4 }}
+        className={cn("group relative cursor-pointer rounded-xl border bg-background/85 p-2.5 pb-10 shadow-sm transition active:cursor-grabbing hover:-translate-y-0.5 hover:shadow-md md:p-2 md:pb-2", occurrence.completed && "opacity-65")}
+        style={{ borderColor: activity.color ? `${activity.color}66` : undefined }}
       >
-        <div className="pr-7">
+        <div className="pr-10 md:pr-7">
           <div className="flex min-w-0 items-center gap-1.5 text-[10px] text-muted-foreground">
+            <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: activity.color || "#38bdf8" }} />
             <span className="shrink-0 rounded-md bg-muted px-1.5 py-0.5 font-semibold">{activity.startTime}</span>
             <Clock className="h-3 w-3 shrink-0" />
             <span className="shrink-0">{minutesToLabel(activity.durationMinutes)}</span>
@@ -148,7 +149,7 @@ function ActivityCard({ occurrence, onOpenDetails }: { occurrence: ActivityOccur
           </div>
         </div>
         <button
-          className={cn("absolute right-2 top-2 rounded-full p-1 transition hover:bg-accent", occurrence.completed && "text-emerald-500")}
+          className={cn("absolute right-1.5 top-1.5 flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-accent md:right-2 md:top-2 md:h-7 md:w-7", occurrence.completed && "text-emerald-500")}
           onClick={(event) => {
             event.stopPropagation();
             complete.mutate({ id: activity.id, date: occurrence.occurrenceDate, completed: !occurrence.completed });
@@ -157,11 +158,11 @@ function ActivityCard({ occurrence, onOpenDetails }: { occurrence: ActivityOccur
         >
           <CheckCircle2 className="h-4 w-4" />
         </button>
-        <div className="absolute bottom-1.5 right-1.5 flex gap-0.5 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-          <Button size="icon" variant="ghost" className="h-6 w-6 rounded-lg" onClick={(event) => { event.stopPropagation(); openEditModal(occurrence); }} aria-label="Editar atividade">
+        <div className="absolute bottom-1.5 right-1.5 flex gap-1 opacity-100 md:gap-0.5 md:opacity-0 md:group-hover:opacity-100">
+          <Button size="icon" variant="ghost" className="h-9 w-9 rounded-lg md:h-6 md:w-6" onClick={(event) => { event.stopPropagation(); openEditModal(occurrence); }} aria-label="Editar atividade">
             <Edit3 className="h-3.5 w-3.5" />
           </Button>
-          <Button size="icon" variant="ghost" className="h-6 w-6 rounded-lg" onClick={(event) => { event.stopPropagation(); setConfirmOpen(true); }} aria-label="Excluir atividade">
+          <Button size="icon" variant="ghost" className="h-9 w-9 rounded-lg md:h-6 md:w-6" onClick={(event) => { event.stopPropagation(); setConfirmOpen(true); }} aria-label="Excluir atividade">
             <Trash2 className="h-3.5 w-3.5" />
           </Button>
         </div>
